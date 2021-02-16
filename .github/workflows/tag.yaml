@@ -1,0 +1,31 @@
+name: Build Docker Image and Push to Github Packages
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Build and Push Image to Gitlab Registry
+        env:
+          DOCKER_USERNAME: username
+          DOCKER_PASSWORD: ${{ secrets.GITLAB_TOKEN }}
+          REPOSITORY: myapp/app
+          REF: ${{ github.ref }}
+          REGISTRY: registry.gitlab.com
+        run: |
+          # php app
+          TAG=${REF##*/}
+          echo "$DOCKER_PASSWORD" | docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin
+          docker build -t $REGISTRY/$REPOSITORY/php:$TAG -f Dockerfile.php .
+          docker push $REGISTRY/$REPOSITORY/php:$TAG
+          echo "::set-output name=image::$REGISTRY/$REPOSITORY/php:$TAG"
+          # static assets
+          docker build -t $REGISTRY/$REPOSITORY/nginx:$TAG -f Dockerfile.nginx .
+          docker push $REGISTRY/$REPOSITORY/nginx:$TAG
+          echo "::set-output name=image::$REGISTRY/$REPOSITORY/nginx:$TAG"

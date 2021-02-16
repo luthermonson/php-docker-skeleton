@@ -1,0 +1,5 @@
+FROM danday74/nginx-lua
+
+COPY ./config/nginx.conf /nginx/conf/nginx.conf
+RUN mkdir -p /app
+COPY ./app /app

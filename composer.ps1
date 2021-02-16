@@ -1,0 +1,1 @@
+docker exec -it php-docker-skeleton_php_1 bash -c "composer ${args}"
