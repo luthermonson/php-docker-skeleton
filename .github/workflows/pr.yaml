@@ -1,0 +1,20 @@
+name: Continuous Integration
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: PHPLint
+        uses: michaelw90/PHP-Lint@master
+      - name: install helm
+        run: curl -l https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - name: lint helm charts
+        run: |
+          helm lint ./helm/app
+          helm lint ./helm/es
+          helm lint ./helm/keydb

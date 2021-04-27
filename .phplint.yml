@@ -1,0 +1,7 @@
+path: ./app
+jobs: 10
+extensions:
+  - php
+exclude:
+  - app/Composer
+warning: true

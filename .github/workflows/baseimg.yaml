@@ -1,0 +1,20 @@
+name: Release Specific Tag to Kubernetes
+on:
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: docker build
+        env:
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+          REPOSITORY: luthermonson/php-docker-skeleton
+          REF: ${{ github.ref }}
+          REGISTRY: ghcr.io
+        run: |
+          echo "REGISTRY_PASSWORD" | docker login $REGISTRY -u "REGISTRY_USERNAME" --password-stdin
+          docker build -t $REGISTRY/$REPOSITORY:base -f Dockerfile.php .
+          docker push $REGISTRY/$REPOSITORY:base
