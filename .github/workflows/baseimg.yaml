@@ -1,4 +1,4 @@
-name: Release Specific Tag to Kubernetes
+name: Build Base PHP Image
 on:
   workflow_dispatch:
 jobs:
@@ -15,6 +15,6 @@ jobs:
           REF: ${{ github.ref }}
           REGISTRY: ghcr.io
         run: |
-          echo "REGISTRY_PASSWORD" | docker login $REGISTRY -u "REGISTRY_USERNAME" --password-stdin
+          echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u "$REGISTRY_USERNAME" --password-stdin
           docker build -t $REGISTRY/$REPOSITORY:base -f Dockerfile.php .
           docker push $REGISTRY/$REPOSITORY:base
