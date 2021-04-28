@@ -5,10 +5,10 @@ Simple skeleton for containerizing your php application using nginx/php-fpm and 
 For this to work you have to have docker installed with a daemon running. If you can't run `docker info` on the command line this will never work. Install docker for desktop if youre using mac/windows and docker if you're on linux.
 
 ## Building the Base Image
-Start by building your php-base image, the [php docker](https://hub.docker.com/_/php) rig compiles everything inline so it's just easier and faster to get that all done once and then copy your php code into the base image. If you need extra packages you can always add them and make a new base image. The following docker command will make the php-base image we will extend from in the main Dockerfile. 
+Start by building your base image, the [php docker](https://hub.docker.com/_/php) rig compiles everything inline so it's just easier and faster to get that all done once and then copy your php code into the base image. If you need extra packages you can always add them and make a new base image. The following docker command will make the base image we will extend from in the main Dockerfile. 
 
 ```
-docker build --rm -f ./Dockerfile.php -t php-base .
+docker build --rm -f ./Dockerfile.php -t base .
 ```
 
 ## Running
@@ -31,7 +31,7 @@ c3b06a217c0f   mysql:5.7                 "docker-entrypoint.s…"   32 minutes a
 ## Github Workflow
 There's a sample Github action which you can use to build images on tag and push them into a gitlab repository and auto deploy them to a kubernetes server. Requirements are secrets in your github repository of a gitlab api token and the contents of a kubernetes config yaml file base64 encoded. This means your workflow can be `git tag v1.0.0 && git push origin v1.0.0` and the action will make your images and run helm to update the deployments to upgrade their image.
 
-For this to work you will need to build the php-base image and push it into gitlab to something like `registry.gitlab.com/myapp/app/base:latest` and update your Dockerfile to extend `FROM` the full registry.
+For this to work you will need to build the base image and push it into gitlab to something like `registry.gitlab.com/myapp/app/base:latest` and update your Dockerfile to extend `FROM` the full registry.
 
 ## Helm Chart
 Included is a sample helm chart for how you could deploy an app and use secrets to store your database credentials. The chart will make a deployment which will contain one pod with the nginx/php-fpm containers running inside. This assumes you are using an external database and you pass the credentials into your app to connect via environment variables much like the docker file.
