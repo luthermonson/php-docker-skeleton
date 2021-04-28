@@ -20,3 +20,17 @@ jobs:
           echo "$KUBECONFIG_BASE64" | base64 --decode > /tmp/config
           export KUBECONFIG=/tmp/config
           helm upgrade --set image.tag=${{ github.event.inputs.tag }} app ./helm/app
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: install helm
+        run: curl -l https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - name: helm upgrade
+        env:
+          KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
+        run: |
+          echo "$KUBECONFIG_BASE64" | base64 --decode > /tmp/config
+          export KUBECONFIG=/tmp/config
+          helm install --set image.tag=${{ github.event.inputs.tag }} app ./helm/app
