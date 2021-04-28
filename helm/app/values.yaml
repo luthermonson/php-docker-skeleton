@@ -14,7 +14,7 @@ secrets:
   DB_NAME: name
 
 image:
-  repository: registry.gitlab.com/myapp/app
+  repository: ghcr.io/luthermonson/php-docker-skeleton
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
