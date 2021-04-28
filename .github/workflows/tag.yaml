@@ -26,6 +26,6 @@ jobs:
           docker push $REGISTRY/$REPOSITORY:php-$TAG
           echo "::set-output name=image::$REGISTRY/$REPOSITORY:php-$TAG"
           # static assets
-          docker build -t $REGISTRY/$REPOSITORY/nginx:$TAG -f Dockerfile.nginx .
+          docker build -t $REGISTRY/$REPOSITORY:nginx-$TAG -f Dockerfile.nginx .
           docker push $REGISTRY/$REPOSITORY:nginx-$TAG
           echo "::set-output name=image::$REGISTRY/$REPOSITORY:nginx-$TAG"
