@@ -1,4 +1,4 @@
-name: Release Specific Tag to Kubernetes
+name: Upgrade Helm Chart
 on:
   workflow_dispatch:
     inputs:

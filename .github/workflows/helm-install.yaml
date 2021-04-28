@@ -1,9 +1,9 @@
-name: Release Specific Tag to Kubernetes
+name: Install Helm Chart
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to release'
+        description: 'Tag to install'
         required: true
 jobs:
   install:
