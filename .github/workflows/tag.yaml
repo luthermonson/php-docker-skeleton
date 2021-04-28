@@ -21,7 +21,7 @@ jobs:
         run: |
           # php app
           TAG=${REF##*/}
-          echo "REGISTRY_PASSWORD" | docker login $REGISTRY -u "REGISTRY_USERNAME" --password-stdin
+          echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u "$REGISTRY_USERNAME" --password-stdin
           docker build -t $REGISTRY/$REPOSITORY:php-$TAG -f Dockerfile .
           docker push $REGISTRY/$REPOSITORY:php-$TAG
           echo "::set-output name=image::$REGISTRY/$REPOSITORY:php-$TAG"
