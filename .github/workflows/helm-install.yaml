@@ -6,7 +6,7 @@ on:
         description: 'Tag to release'
         required: true
 jobs:
-  release:
+  install:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,4 +19,4 @@ jobs:
         run: |
           echo "$KUBECONFIG_BASE64" | base64 --decode > /tmp/config
           export KUBECONFIG=/tmp/config
-          helm upgrade --set image.tag=${{ github.event.inputs.tag }} app ./helm/app
+          helm install --set image.tag=${{ github.event.inputs.tag }} app ./helm/app
