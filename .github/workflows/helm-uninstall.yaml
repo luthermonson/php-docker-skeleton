@@ -1,4 +1,4 @@
-name: Upgrade Helm Chart
+name: Uninstall Helm Chart
 on:
   workflow_dispatch:
 jobs:
